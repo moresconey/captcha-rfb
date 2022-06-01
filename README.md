@@ -7,7 +7,7 @@ Solução captcha da Receita Federal.
 <hr>
 Após diversas analises gráficas, e estatisticas e testando diversas soluções consegui encontrar uma forma de solucionar o Captcha, hoje a imagem com diversas ruídos e o audio também com muitos rúidos.
 
-Não encontrei falhas, das minhas tentativas está dando **100% de precisão**.
+Em minhas tentativas utilizando essa solução estou com **100% de precisão**. Melhorias no código são bem-vindas.
 
 *Aqui somente contem o código com a solução pronta, todos os gráficos e outras funções que foram utilizadas para analise e montar as funções para solução não estarão neste repositório.*
 
