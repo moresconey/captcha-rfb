@@ -3,6 +3,7 @@ import pkg_resources
 import subprocess
 import json
 import platform
+from time import sleep
 
 required = {'numpy', 'selenium', 'scipy', 'requests'}
 installed = {pkg.key for pkg in pkg_resources.working_set}
@@ -68,7 +69,9 @@ class RFB_CNPJ:
 
         self.driver = driver
 
-    def _download_wave(self):
+    def _download_wave(self, first_try = True):
+        if first_try:
+            sleep(2)
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located(RFBElements.INPUTCaptcha))
 
         cookie_dict = {}
@@ -80,9 +83,12 @@ class RFB_CNPJ:
         r = requests.get(RFBElements.URLwave, cookies= cookie_dict, headers = header)
         
         if r.content == b'':
-            print('Error: Failed to download wave file, please reload the page!')
-            self.driver.refresh()
-            return False
+            if not first_try:
+                print('Error: Failed to download wave file, please reload the page!')
+                self.driver.refresh()
+                return False
+            else:
+                self._download_wave(first_try=False)
         else:
             self.wave_rate, self.wave_data = wavfile.read(BytesIO(r.content))
             return True
@@ -165,4 +171,4 @@ class RFB_CNPJ:
 
 if __name__ == '__main__':
     cnpj = RFB_CNPJ()
-    cnpj.get('00000000000191', show = True)
+    cnpj.get('39428521000180', show = True)
