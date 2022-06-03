@@ -1,4 +1,4 @@
-import sys
+import os
 import pkg_resources
 import subprocess
 import json
@@ -8,9 +8,8 @@ from time import sleep
 required = {'numpy', 'selenium', 'scipy', 'requests'}
 installed = {pkg.key for pkg in pkg_resources.working_set}
 missing = required - installed
-if missing:
-    python = sys.executable
-    subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
+for pkg in missing:
+    os.system(f'pip install {pkg}')
 
 import requests
 import numpy as np
@@ -57,7 +56,7 @@ class RFB_CNPJ:
         subprocess.run(self.copy_keyword, universal_newlines=True, input=value)
         ActionChains(self.driver).key_down(Keys.CONTROL).key_down('v').key_up('v').key_up(Keys.CONTROL).perform()
 
-    def _start_chrome(self, show=False):
+    def _start_chrome(self, show):
         chromeOptions = webdriver.ChromeOptions()
 
         if not show:
@@ -65,7 +64,6 @@ class RFB_CNPJ:
             chromeOptions.add_argument('--no-sandbox')
         
         driver = webdriver.Chrome(self.chromePath, chrome_options=chromeOptions)
-        driver.get(RFBElements.URLmain)
 
         self.driver = driver
 
@@ -149,10 +147,9 @@ class RFB_CNPJ:
 
     def get(self, cnpj, show = False):
         if self.driver is None:
-            self._start_chrome(show = show)
+            self._start_chrome(show)
         
-        if self.driver.current_url != RFBElements.URLmain:
-            self.driver.get(RFBElements.URLmain)
+        self.driver.get(RFBElements.URLmain)
 
         if self._download_wave():
             self.driver.find_element(*RFBElements.INPUTCaptcha).click()
@@ -171,4 +168,5 @@ class RFB_CNPJ:
 
 if __name__ == '__main__':
     cnpj = RFB_CNPJ()
-    cnpj.get('39428521000180', show = True)
+    cnpj.get('00000000000191', show = True)
+
