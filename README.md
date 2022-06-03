@@ -81,5 +81,44 @@ Como observado, pelo mais lógico utilizei como referencia a dimensão do ruido 
 **Em vermelho o Inicio de cada letra e em Roxo o final:**
 ![image](https://user-images.githubusercontent.com/71271207/171778085-5946cc5a-dcd4-43f4-8ad4-6424befd5115.png)
 
-Observamos que possuimos um corte alem do imaginado, acaba acusando 7 letras, mas na verdade é a nossa letra Y
+Observamos que possuimos um corte alem do imaginado, acaba acusando 7 letras, mas na verdade é a nossa letra Y e mesmo utilizando algumas correções para este caso quando iniciamos os testes com mais captchas ele se perde fácil e acaba fazendo várias quebras, quebrando letras no meio.
 
+
+Então após algumas tentativas, e diversas analises acabei ampliando o gráfico e verificando uma outra forma de separar ruidos de falas, abaixo as duas imagens que exemplificam isso.
+
+##### Trecho somente com Ruidos
+![image](https://user-images.githubusercontent.com/71271207/171868382-7ffe9b41-6dd7-4f64-9901-c779e66200cf.png)
+
+Observe como os números estão bem parecidos, o intervalo de ruido os números são bem homogenios.
+
+##### Trecho de Fala
+![image](https://user-images.githubusercontent.com/71271207/171869315-10af7d41-af33-4ce9-90f0-dddbde630662.png)
+
+Aqui podemos observar a diferença, temos diversos números distintos.
+
+Devido a isso, fiz a analise visando a verificação de números distintos e refiz a função para remover ruidos e separar letras, utlizando como parametro a busca de númermos homogenios, onde acabo encontrando muitas ocorrencias parecidas sei que estamos tratando um intervalo de letra com ruidos.
+
+##### Após a aplicar função de remover ruidos. * Essa função pode ser melhorada, pois para alguns captchas ainda pega muito ruido.
+![image](https://user-images.githubusercontent.com/71271207/171873342-c7a54563-6a13-4d28-ba48-185441d67dac.png)
+
+Eliminando o ruidos entre as letras, fica fácil separa-las para iniciar a fase de reconhecimento, pois alem de identificar os rúidos também zerei os intervalos de ruidos.
+
+Em seguida inicei o processo de comparação, e encontrei outro problema, devido aos ruidos as letras não possuiem os mesmo números, a mesma letra A.
+
+##### Mesma letra A
+![image](https://user-images.githubusercontent.com/71271207/171936985-d85948d6-055b-4e67-9805-b47b2bcc997a.png)
+
+### 2. Analise Numérica
+
+Realizando a comparação de arrays, percentual de igualdade é minimo, então começou a segunda parte do desafio encaixar os dois A, para consegui comparar, observando o gráfico, fica fácil a comparação entretanto quando observando os arrays não são muito parecidos.
+
+Apos algumas pesquisas na internet, procurando alguns funções de redução de ruidos, não consegui nada muito preciso.
+
+Depois de pensar um bom tanto, me toquei que poderia pegar os picos e também as baixas de cada letra, então fiz um teste com os 30 maiores valores e 30 menores, e comecei a comparar os arrays, realizando a subtração visando a diferença, devido ao nível de ruido de cada captcha, nunca teremos o zero como referencia de igualdade, em alguns casos a diferença da uns 2000 de cada letra, mas gerando numeros bem homogenios, então idependente do valor que seja 1 mil ou 2 mil ou 3 mil ou até mesmo 0, utilzei como referencia o **Desvio Padrão**, quanto menor o desvio meais parecido os números são, então realizei analise manual com diversas letras.
+
+Com tudo funcionando, devido aos benditos ruidos, nem todos os números batem, então estabeleci um desvio de padrão inferior a 10, por segurança mesmo que quando é uma letra diferente o desvio padrão é superior a 100 em alguns casos até 2000.
+
+Agora ficou fácil, bastou coletar a informações de todos os digitos e montar um banco de dados com essas informações para comparações, montei um JSON e inicei os testes ea precissão ficou muito boa.
+
+<br>
+@Ney Moresco
