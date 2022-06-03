@@ -4,6 +4,10 @@ Solução captcha da Receita Federal.
 
 ![Exemplo de Captcha](https://user-images.githubusercontent.com/71271207/171506159-c5c2e472-2161-4883-a653-c4a5aa17ca59.png)
 
+##### Potenciais de Melhorias
+* Separação das letras no audio;
+* Exportação do comprovante para PDF.
+
 <hr>
 Após diversas analises gráficas, e estatisticas e testando diversas soluções consegui encontrar uma forma de solucionar o Captcha, hoje a imagem com diversas ruídos e o audio também com muitos rúidos.
 
@@ -36,4 +40,9 @@ Primeiro descarte foi a analise de imagem, a mais de um ano já estava aprendend
 #### 1. Analise Gráfica
 
 Verificando gráfico com fala das letras e ruidos
+
+![image](https://user-images.githubusercontent.com/71271207/171774687-f53d15d9-e461-4854-877e-4d1b4dfd779d.png)
+*A imagem acima representa os seguintes digitos: keyc71*
+
+
 
