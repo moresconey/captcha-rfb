@@ -84,9 +84,14 @@ class RFB_CNPJ:
             if not first_try:
                 print('Error: Failed to download wave file, please reload the page!')
                 self.driver.refresh()
-                return False
+                sleep(1)
+                self._download_wave(first_try=True)
             else:
-                self._download_wave(first_try=False)
+                sleep(1)
+                r = requests.get(RFBElements.URLwave, cookies= cookie_dict, headers = header)
+                if r.content == b'':
+                    self._download_wave(first_try=False)
+
         else:
             self.wave_rate, self.wave_data = wavfile.read(BytesIO(r.content))
             return True
@@ -169,4 +174,3 @@ class RFB_CNPJ:
 if __name__ == '__main__':
     cnpj = RFB_CNPJ()
     cnpj.get('00000000000191', show = True)
-
